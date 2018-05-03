@@ -9,7 +9,9 @@ var UIController = (function(){
         inputDescription: ".add__description",
         inputType: ".add__type",
         inputValue: ".add__value",
-        inputAdd: ".add__btn"
+        inputAdd: ".add__btn",
+        incomeContainter: ".income__list",
+        expensesContainter: ".expenses__list",
     }
 
     //Public block - that will be returned after IIFE execution
@@ -21,6 +23,33 @@ var UIController = (function(){
                 description: document.querySelector(DOMStrings.inputDescription).value,
                 value: document.querySelector(DOMStrings.inputValue).value,
             }
+        },
+
+        addListItem: function(obj, type){
+            var html, newHTML, element;
+
+            //HTML Template
+
+            if(type === 'exp') {
+                element = DOMStrings.expensesContainter;
+
+                html = '<div class="item clearfix" id="expense-%id%"><div class="item__description">%description%</div><div class="right clearfix"><div class="item__value">- %value%</div><div class="item__percentage"> 0%</div><div class="item__delete"><button class="item__delete--btn"><i class="ion-ios-close-outline"></i></button></div></div></div>';
+            }else if(type === 'inc') {
+                element = DOMStrings.incomeContainter;
+
+                html = '<div class="item clearfix" id="income-%id%"><div class="item__description">%description%</div><div class="right clearfix"><div class="item__value">+ %value%</div><div class="item__delete"><button class="item__delete--btn"><i class="ion-ios-close-outline"></i></button></div></div></div>'
+            }
+
+            //Fill template with object data
+
+            newHTML = html.replace('%id%', obj.id);
+            newHTML = newHTML.replace('%description%', obj.description);
+            newHTML = newHTML.replace('%value%', obj.value);
+
+            //Place the element into the DOM
+
+            document.querySelector(element).insertAdjacentHTML('beforeend', newHTML);
+
         },
 
         getDOMStrings: function(){
@@ -136,7 +165,7 @@ var controller = (function(budgetCtrl, UICtrl){
         newItem = budgetCtrl.addItem(input.type, input.description, input.value);
 
         //FUTURE: 3. Add the item to the UI
-
+        UICtrl.addListItem(newItem, input.type);
         //FUTURE: 4. Calculate the budhet
 
         //FUTURE: 5. Display the budget on the UI
