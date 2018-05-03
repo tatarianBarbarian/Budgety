@@ -54,12 +54,47 @@ var budgetController = (function(){
     var data = {
         allItems: {
             inc: [],
-            dec: [],
+            exp: [],
         },
 
         totals: {
             inc: 0,
             exp: 0,
+        }
+    }
+
+    return {
+        addItem: function(type, des, val) {
+
+            //Define a types that'll be there
+
+            var newItem, ID;
+
+            //Define an ID
+            if (data.allItems[type].length > 0) {
+                ID = data.allItems[type][data.allItems[type].length - 1].id + 1;
+            } else {
+                ID = 0;
+            }
+            //Create a new item which is expense or income
+
+            if (type === 'exp') {
+                newItem = new Expense(ID, des, val);
+            } else if(type === 'inc') {
+                newItem = new Income(ID, des, val);
+            }
+
+            //Push the new iten into the array of items
+
+            data.allItems[type].push(newItem);
+
+            //Return the new element
+
+            return newItem;
+        },
+
+        testing: function(){
+        console.log(data);
         }
     }
 })();
@@ -90,19 +125,21 @@ var controller = (function(budgetCtrl, UICtrl){
 
     var ctrlAddItem = function() {
 
-    //TODO: 1. Get the input field data
+        var input, newItem;
 
-    input = UICtrl.getInput();
-    console.log(input);
+        //1. Get the input field data
 
-    //TODO: 2. Add the item to the budget controller
+        input = UICtrl.getInput();
 
+        //2. Add the item to the budget controller
 
-    //TODO: 3. Add the item to the UI
+        newItem = budgetCtrl.addItem(input.type, input.description, input.value);
 
-    //TODO: 4. Calculate the budhet
+        //FUTURE: 3. Add the item to the UI
 
-    //TODO: 5. Display the budget on the UI
+        //FUTURE: 4. Calculate the budhet
+
+        //FUTURE: 5. Display the budget on the UI
 
 
     }
