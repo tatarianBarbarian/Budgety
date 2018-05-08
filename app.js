@@ -426,7 +426,10 @@ var controller = (function(budgetCtrl, UICtrl){
         var targetID, splitID, type, ID;
         //Get target ID
 
-        targetID = event.target.parentNode.parentNode.parentNode.id;
+        targetID = event.target.parentNode.parentNode.parentNode.parentNode.id;
+        if (window.navigator.userAgent === "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:59.0) Gecko/20100101 Firefox/59.0") {
+            targetID = event.target.parentNode.parentNode.parentNode.id;
+        }
 
         if(targetID){
             splitID = targetID.split('-');
